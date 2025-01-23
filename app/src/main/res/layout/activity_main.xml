@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -10,28 +9,55 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <!-- Loan Button -->
+    <!-- Toggle Theme Button -->
     <Button
-        android:id="@+id/btnLoan"
-        android:layout_width="match_parent"
+        android:id="@+id/btnToggleTheme"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Lån" />
-
-    <!-- Hand In Button -->
-    <Button
-        android:id="@+id/btnHandIn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_marginTop="16dp"
-        android:text="Aflever" />
+        android:layout_marginStart="16dp"
+        android:text="TRY ME!" />
 
     <!-- Admin Login Button -->
     <Button
         android:id="@+id/btnAdminLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="32dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Admin Login" />
 
-</LinearLayout>
+    <!-- Centered Buttons -->
+    <LinearLayout
+        android:id="@+id/centerButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_margin="16dp">
+
+        <!-- Loan Button -->
+        <Button
+            android:id="@+id/btnLoan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="70dp"
+            android:minHeight="70dp"
+            android:textSize="25dp"
+            android:text="Lån" />
+
+        <!-- Hand In Button -->
+        <Button
+            android:id="@+id/btnHandIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="70dp"
+            android:textSize="25dp"
+            android:text="Aflever" />
+    </LinearLayout>
+
+</RelativeLayout>

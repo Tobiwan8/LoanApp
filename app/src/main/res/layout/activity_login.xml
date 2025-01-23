@@ -11,7 +11,7 @@
         android:id="@+id/etUsername"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Username"
+        android:hint="Brugernavn"
         android:inputType="text" />
 
     <!-- Password Input -->
@@ -19,7 +19,7 @@
         android:id="@+id/etPassword"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Password"
+        android:hint="Adgangskode"
         android:inputType="textPassword"
         android:layout_marginTop="16dp" />
 

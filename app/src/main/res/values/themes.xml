@@ -1,9 +1,21 @@
+
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.LoanApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight">
+        <item name="android:windowBackground">@color/background_color</item>
+        <item name="android:textColor">@color/text_color</item>
+        <item name="buttonStyle">@style/ButtonStyle</item>
+        <item name="materialSwitchStyle">@style/MaterialSwitchStyle </item>
     </style>
 
-    <style name="Theme.LoanApp" parent="Base.Theme.LoanApp" />
+    <style name="ButtonStyle">
+        <item name="android:background">@color/button_color</item>
+        <item name="android:textColor">@color/button_text_color</item>
+    </style>
+
+    <style name="MaterialSwitchStyle" parent="Widget.Material3.CompoundButton.MaterialSwitch">
+        <item name="colorControlActivated">@color/switch_thumb_color</item>
+        <item name="colorSwitchThumbNormal">@color/switch_track_color</item>
+        <item name="android:colorForeground">#42221f1f</item>
+        <item name="colorButtonNormal">#fff</item>
+    </style>
 </resources>

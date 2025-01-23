@@ -39,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
                 finish();
             } else {
                 // Login failed, show error message
-                Toast.makeText(LoginActivity.this, "Invalid username or password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "Ugyldigt brugernavn eller adgangskode", Toast.LENGTH_SHORT).show();
             }
         });
     }

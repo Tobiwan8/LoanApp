@@ -9,10 +9,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
-import android.widget.ToggleButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import java.util.Date;
 import java.util.List;
@@ -22,14 +22,11 @@ import com.example.loanapp.model.LoanModel;
 import com.example.loanapp.model.UserModel;
 import com.example.loanapp.data.DatabaseHelper;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
 public class BorrowActivity extends AppCompatActivity {
 
     private RadioGroup radioGroupItemType;
     private Spinner spinnerItem;
-    private ToggleButton toggleExistingUser;
+    private SwitchCompat switchExistingUser ;
     private LinearLayout newUserLayout;
     private EditText etFullName, etPhoneNumber, etEmail, etLoanNumber;
     private Button btnCreateLoan;
@@ -46,7 +43,7 @@ public class BorrowActivity extends AppCompatActivity {
         // Initialize UI components
         radioGroupItemType = findViewById(R.id.radioGroupItemType);
         spinnerItem = findViewById(R.id.spinnerItem);
-        toggleExistingUser = findViewById(R.id.toggleExistingUser);
+        switchExistingUser  = findViewById(R.id.switchExistingUser);
         newUserLayout = findViewById(R.id.newUserLayout);
         etFullName = findViewById(R.id.etFullName);
         etPhoneNumber = findViewById(R.id.etPhoneNumber);
@@ -71,11 +68,13 @@ public class BorrowActivity extends AppCompatActivity {
         });
 
         // Listener for toggle button
-        toggleExistingUser.setOnCheckedChangeListener((buttonView, isChecked) -> {
+        switchExistingUser.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
+                // Show the existing user layout
                 newUserLayout.setVisibility(View.GONE);
                 etLoanNumber.setVisibility(View.VISIBLE);
             } else {
+                // Show the new user layout
                 newUserLayout.setVisibility(View.VISIBLE);
                 etLoanNumber.setVisibility(View.GONE);
             }
@@ -113,7 +112,7 @@ public class BorrowActivity extends AppCompatActivity {
 
     // Create loan logic using SQLite
     private void createLoan() {
-        if (toggleExistingUser.isChecked()) {
+        if (switchExistingUser.isChecked()) {
             // Existing user loan creation
             String loanNumber = etLoanNumber.getText().toString().trim();
             if (loanNumber.isEmpty()) {

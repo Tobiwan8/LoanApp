@@ -2,4 +2,16 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="background_color">#F5F5DC</color> <!-- Beige -->
+    <color name="text_color">#000000</color> <!-- Black -->
+    <color name="button_color">#ADD8E6</color> <!-- Light Blue -->
+    <color name="button_text_color">#000000</color> <!-- Black -->
+    <color name="background_color_night">#1A1A2E</color> <!-- Very Dark Blue -->
+    <color name="text_color_night">#FFFFFF</color> <!-- White -->
+    <color name="button_color_night">#0000FF</color> <!-- Blue -->
+    <color name="button_text_color_night">#000000</color> <!-- Black -->
+    <color name="switch_thumb_color">#ADD8E6</color> <!-- Light Blue for the thumb -->
+    <color name="switch_track_color">#C4A484</color> <!-- Beige for the track -->
+    <color name="switch_thumb_color_night">#0000FF</color> <!-- Blue for the thumb -->
+    <color name="switch_track_color_night">#A9A9A9</color> <!-- Dark Blue for the track -->
 </resources>

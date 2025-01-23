@@ -89,12 +89,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
 
         // Add loans
-        for (LoanModel loan : user.getLoans()) {
+        if (!user.getLoans().isEmpty()) {
+            LoanModel lastLoan = user.getLoans().get(user.getLoans().size() - 1);
+
+            // Insert the last loan into the loans table
             ContentValues loanValues = new ContentValues();
             loanValues.put(COLUMN_USER_ID, user.getLoanNumber());
-            loanValues.put(COLUMN_ITEM_TYPE, loan.getItem().getType());
-            loanValues.put(COLUMN_ITEM_NAME, loan.getItem().getName());
-            loanValues.put(COLUMN_LOAN_DATE, loan.getLoanDate().getTime());
+            loanValues.put(COLUMN_ITEM_TYPE, lastLoan.getItem().getType());
+            loanValues.put(COLUMN_ITEM_NAME, lastLoan.getItem().getName());
+            loanValues.put(COLUMN_LOAN_DATE, lastLoan.getLoanDate().getTime());
             db.insert(TABLE_LOANS, null, loanValues);
         }
 
