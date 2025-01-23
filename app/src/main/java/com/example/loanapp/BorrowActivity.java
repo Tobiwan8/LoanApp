@@ -15,11 +15,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Date;
+import java.util.List;
 
 import com.example.loanapp.model.ItemModel;
 import com.example.loanapp.model.LoanModel;
 import com.example.loanapp.model.UserModel;
-import com.example.loanapp.data.JsonUtil;
+import com.example.loanapp.data.DatabaseHelper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -35,6 +36,7 @@ public class BorrowActivity extends AppCompatActivity {
 
     private String selectedItemType = "Tablet"; // Default to Tablet
     private String selectedItemName;
+    private DatabaseHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +53,9 @@ public class BorrowActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etLoanNumber = findViewById(R.id.etLoanNumber);
         btnCreateLoan = findViewById(R.id.btnCreateLoan);
+
+        // Initialize DatabaseHelper
+        dbHelper = new DatabaseHelper(this);
 
         // Set default item list
         updateSpinnerOptions(selectedItemType);
@@ -106,7 +111,7 @@ public class BorrowActivity extends AppCompatActivity {
         });
     }
 
-    // Create loan logic
+    // Create loan logic using SQLite
     private void createLoan() {
         if (toggleExistingUser.isChecked()) {
             // Existing user loan creation
@@ -115,7 +120,21 @@ public class BorrowActivity extends AppCompatActivity {
                 Toast.makeText(this, "Venligst indtast et gyldigt lånenummer", Toast.LENGTH_SHORT).show();
                 return;
             }
-            // Simulate finding user by loan number and creating loan
+
+            // Get user from database by loan number
+            UserModel user = dbHelper.getUserByLoanNumber(Integer.parseInt(loanNumber));
+            if (user == null) {
+                Toast.makeText(this, "Låner ikke fundet!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Create loan and add to user
+            LoanModel newLoan = new LoanModel(0, new ItemModel(selectedItemType, selectedItemName), new Date());
+            user.getLoans().add(newLoan);
+
+            // Update user and add loan to the database
+            dbHelper.addOrUpdateUser(user);
+
             Toast.makeText(this, "Lån oprettet!", Toast.LENGTH_SHORT).show();
         } else {
             // New user registration and loan creation
@@ -128,15 +147,42 @@ public class BorrowActivity extends AppCompatActivity {
                 return;
             }
 
-            UserModel newUser = new UserModel(12345, fullName, phoneNumber, email); // Simulate auto-generated loan number
-            LoanModel newLoan = new LoanModel(new ItemModel(selectedItemType, selectedItemName), new Date());
+            // Validate that fullName contains only letters
+            if (!fullName.matches("[a-zA-ZæøåÆØÅ ]+")) { // Adjust regex for Danish characters
+                Toast.makeText(this, "Navnet må kun indeholde bogstaver", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Validate email format
+            if (!email.matches("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")) {
+                Toast.makeText(this, "Indtast en gyldig emailadresse", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Validate phone number (must be 8 digits)
+            if (!phoneNumber.matches("\\d{8}")) {
+                Toast.makeText(this, "Telefonnummer skal være 8 cifre", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Create new user with new loan number
+            int newLoanNumber = generateLoanNumber();  // You can adjust this to auto-generate
+            UserModel newUser = new UserModel(newLoanNumber, fullName, phoneNumber, email);
+            LoanModel newLoan = new LoanModel(0, new ItemModel(selectedItemType, selectedItemName), new Date());
+
             newUser.getLoans().add(newLoan);
 
-            // Simulate saving user and loan to JSON
-            Toast.makeText(this, "Lån oprettet!", Toast.LENGTH_SHORT).show();
-        }
+            // Add user and loan to database
+            dbHelper.addOrUpdateUser(newUser);
 
-        // Navigate back to MainActivity
-        finish();
+            Toast.makeText(this, "Lån oprettet!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Dit lånenummer: " + newLoanNumber, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Method to generate loan number (for new users)
+    private int generateLoanNumber() {
+        List<UserModel> users = dbHelper.getAllUsers();
+        return users.size() + 1; // Simple loan number generation logic
     }
 }

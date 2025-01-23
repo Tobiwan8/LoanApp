@@ -14,8 +14,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.example.loanapp.data.DatabaseHelper;
 import com.example.loanapp.model.LoanModel;
 import com.example.loanapp.model.ItemModel;
+import com.example.loanapp.model.UserModel;
 
 public class HandInActivity extends AppCompatActivity {
 
@@ -26,6 +28,7 @@ public class HandInActivity extends AppCompatActivity {
 
     private List<LoanModel> userLoans; // Holds the loans of the user
     private List<CheckBox> loanCheckBoxes; // Holds the dynamically created checkboxes
+    private DatabaseHelper dbHelper; // DatabaseHelper instance to interact with SQLite
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,9 @@ public class HandInActivity extends AppCompatActivity {
 
         userLoans = new ArrayList<>();
         loanCheckBoxes = new ArrayList<>();
+
+        // Initialize the database helper
+        dbHelper = new DatabaseHelper(this);
 
         // Search button functionality
         btnSearchLoan.setOnClickListener(v -> searchLoans());
@@ -70,13 +76,15 @@ public class HandInActivity extends AppCompatActivity {
     }
 
     private List<LoanModel> findLoansByLoanNumber(int loanNumber) {
-        // Simulate retrieving loans by loan number
-        List<LoanModel> mockLoans = new ArrayList<>();
-        if (loanNumber == 12345) { // Example loan number
-            mockLoans.add(new LoanModel(new ItemModel("Tablet", "Samsung"), new java.util.Date()));
-            mockLoans.add(new LoanModel(new ItemModel("Cable", "HDMI"), new java.util.Date()));
+        // Fetch the user by loan number from the database
+        UserModel user = dbHelper.getUserByLoanNumber(loanNumber);
+
+        // If user is found, return their loans
+        if (user != null) {
+            return user.getLoans();
+        } else {
+            return new ArrayList<>(); // No loans found for this loan number
         }
-        return mockLoans;
     }
 
     private void populateLoanList() {
@@ -109,7 +117,12 @@ public class HandInActivity extends AppCompatActivity {
             return;
         }
 
-        // Simulate returning loans (remove from userLoans)
+        // Remove selected loans from the database
+        for (LoanModel loan : loansToReturn) {
+            dbHelper.removeLoan(loan);
+        }
+
+        // Remove loans from the local list (for UI update)
         userLoans.removeAll(loansToReturn);
 
         // Update the loan list UI

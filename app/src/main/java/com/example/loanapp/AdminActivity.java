@@ -12,12 +12,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import com.example.loanapp.data.DatabaseHelper;
 import com.example.loanapp.model.LoanModel;
 import com.example.loanapp.model.UserModel;
-import com.example.loanapp.model.ItemModel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AdminActivity extends AppCompatActivity {
 
@@ -25,9 +25,11 @@ public class AdminActivity extends AppCompatActivity {
     private ListView lvUsersAndLoans;
     private Button btnLogout;
 
-    private List<UserModel> allUsers; // Simulated data
+    private List<UserModel> allUsers;
     private ArrayAdapter<String> adapter;
-    private List<String> displayList; // List of strings to display in ListView
+    private List<String> displayList;
+
+    private DatabaseHelper dbHelper; // DatabaseHelper instance
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,11 @@ public class AdminActivity extends AppCompatActivity {
         lvUsersAndLoans = findViewById(R.id.lvUsersAndLoans);
         btnLogout = findViewById(R.id.btnLogout);
 
-        // Simulate loading all users from JSON
-        allUsers = loadAllUsers();
+        // Initialize DatabaseHelper
+        dbHelper = new DatabaseHelper(this);
+
+        // Load all users from SQLite database
+        allUsers = loadAllUsersFromDatabase();
         displayList = new ArrayList<>();
 
         // Populate the ListView with user data
@@ -71,21 +76,9 @@ public class AdminActivity extends AppCompatActivity {
         });
     }
 
-    // Simulate loading all users from JSON
-    private List<UserModel> loadAllUsers() {
-        // Replace this with logic to read from JSON
-        List<UserModel> mockUsers = new ArrayList<>();
-
-        UserModel user1 = new UserModel(12345, "Alice Johnson", "1234567890", "alice@example.com");
-        user1.getLoans().add(new LoanModel(new ItemModel("Tablet", "Samsung"), new java.util.Date()));
-
-        UserModel user2 = new UserModel(67890, "Bob Smith", "0987654321", "bob@example.com");
-        user2.getLoans().add(new LoanModel(new ItemModel("Cable", "HDMI"), new java.util.Date()));
-
-        mockUsers.add(user1);
-        mockUsers.add(user2);
-
-        return mockUsers;
+    // Load all users from the SQLite database
+    private List<UserModel> loadAllUsersFromDatabase() {
+        return dbHelper.getAllUsers();
     }
 
     // Populate the display list for ListView
@@ -118,5 +111,11 @@ public class AdminActivity extends AppCompatActivity {
 
         populateDisplayList(filteredUsers);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        dbHelper.close(); // Close database connection
     }
 }
