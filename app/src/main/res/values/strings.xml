@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">LoanApp</string>
+    <string name="select_item">Please select an item</string>
+</resources>

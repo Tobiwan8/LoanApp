@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <!-- Radio Group for Selecting Item Type -->
+        <RadioGroup
+            android:id="@+id/radioGroupItemType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radioTablet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Tablet" />
+
+            <RadioButton
+                android:id="@+id/radioCable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kabel" />
+        </RadioGroup>
+
+        <!-- Dropdown for Selecting Brand or Type -->
+        <Spinner
+            android:id="@+id/spinnerItem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:prompt="@string/select_item" />
+
+        <!-- Toggle Button for New or Existing User -->
+        <ToggleButton
+            android:id="@+id/toggleExistingUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:textOff="Ny bruger"
+            android:textOn="Eksisterende bruger" />
+
+        <!-- User Information (Only for New Users) -->
+        <LinearLayout
+            android:id="@+id/newUserLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="16dp">
+
+            <EditText
+                android:id="@+id/etFullName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Fuldt navn" />
+
+            <EditText
+                android:id="@+id/etPhoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Telefonnummer"
+                android:inputType="phone" />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Email"
+                android:inputType="textEmailAddress" />
+        </LinearLayout>
+
+        <!-- Loan Number (Only for Existing Users) -->
+        <EditText
+            android:id="@+id/etLoanNumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Lånenummer"
+            android:layout_marginTop="16dp"
+            android:visibility="gone" />
+
+        <!-- Create Loan Button -->
+        <Button
+            android:id="@+id/btnCreateLoan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Opret Lån" />
+    </LinearLayout>
+</ScrollView>
