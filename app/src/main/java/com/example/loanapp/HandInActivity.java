@@ -50,7 +50,10 @@ public class HandInActivity extends AppCompatActivity {
         dbHelper = new DatabaseHelper(this);
 
         // Search button functionality
-        btnSearchLoan.setOnClickListener(v -> searchLoans());
+        btnSearchLoan.setOnClickListener(v -> {
+            hideKeyboard(); // Hide the keyboard
+            searchLoans();  // Call the searchLoans method
+        });
 
         // Return button functionality
         btnReturnLoan.setOnClickListener(v -> returnSelectedLoans());
@@ -131,4 +134,14 @@ public class HandInActivity extends AppCompatActivity {
 
         Toast.makeText(this, "Valgte lån er blevet afleveret!", Toast.LENGTH_SHORT).show();
     }
+
+    private void hideKeyboard() {
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            android.view.inputmethod.InputMethodManager imm =
+                    (android.view.inputmethod.InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
+
 }
