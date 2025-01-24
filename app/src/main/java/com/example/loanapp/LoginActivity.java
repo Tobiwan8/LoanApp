@@ -48,3 +48,4 @@ public class LoginActivity extends AppCompatActivity {
     private boolean validateLogin(String username, String password) {
         return ADMIN_USERNAME.equals(username) && ADMIN_PASSWORD.equals(password);
     }
+}
