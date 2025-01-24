@@ -4,22 +4,6 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Search Bar -->
-    <EditText
-        android:id="@+id/etSearch"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Search by name or loan number"
-        android:inputType="text" />
-
-    <!-- User and Loan List -->
-    <ListView
-        android:id="@+id/lvUsersAndLoans"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/etSearch"
-        android:layout_marginTop="8dp" />
-
     <!-- Log Out Button -->
     <Button
         android:id="@+id/btnLogout"
@@ -28,4 +12,34 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:text="Log Out" />
+
+
+    <LinearLayout
+        android:id="@+id/contentLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnLogout"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <!-- Search Bar -->
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Søg ved navn eller lånenummer"
+            android:inputType="text" />
+
+        <!-- User and Loan List -->
+        <ListView
+            android:id="@+id/lvUsersAndLoans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/etSearch"
+            android:layout_marginTop="8dp" />
+
+    </LinearLayout>
+
+
+
 </RelativeLayout>
